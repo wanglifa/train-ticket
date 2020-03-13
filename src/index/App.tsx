@@ -6,21 +6,36 @@ import DepartDate from "./DepartData";
 import HighSpeed from "./HighSpeed";
 import Journey from "./Journey";
 import Submit from "./Submit";
+import {createContext, Dispatch, useReducer} from "react";
+interface State {
+
+}
+interface Action extends State {
+  type: string
+}
+type Reducer = (state: State, action: Action) => State
+interface Context {
+  state: State;
+  dispatch: Dispatch<Action>
+}
+const store = {}
+const reducer: Reducer = (state, action) => {
+  switch (action.type) {
+    default:
+      throw new Error()
+  }
+}
+const Context = createContext<Context | null>(null)
 const App: React.FC = () => {
+  const [state, dispatch] = useReducer(reducer, store)
   return (
-    <div>
+    <Context.Provider value={{state, dispatch}}>
       <Header/>
       <Journey/>
       <DepartDate/>
       <HighSpeed/>
       <Submit/>
-    </div>
+    </Context.Provider>
   )
 }
-const mapState = (state: any) => {
-
-}
-const mapDispatch = (dispatch: any) => {
-
-}
-export default connect(mapState, mapDispatch)(App)
+export default App
