@@ -5,7 +5,7 @@ import DepartDate from "./DepartData";
 import HighSpeed from "./HighSpeed";
 import Journey from "./Journey";
 import Submit from "./Submit";
-import {createContext, Dispatch, useReducer} from "react";
+import {createContext, Dispatch, useCallback, useReducer} from "react";
 import * as actionCreator from './action'
 interface State {
   from: string;
@@ -60,9 +60,14 @@ const reducer: Reducer = (state, action) => {
 const Context = createContext<Context | null>(null)
 const App: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, store)
+  const onBack = useCallback(() => {
+    window.history.back()
+  }, [])
   return (
     <Context.Provider value={{state, dispatch}}>
-      <Header/>
+      <div className="header-wrapper">
+        <Header title={"火车票"} onBack={onBack}/>
+      </div>
       <Journey/>
       <DepartDate/>
       <HighSpeed/>
