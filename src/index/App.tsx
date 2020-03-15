@@ -5,26 +5,24 @@ import DepartDate from "./DepartData";
 import HighSpeed from "./HighSpeed";
 import Journey from "./Journey";
 import Submit from "./Submit";
-import {createContext, Dispatch, useCallback, useReducer} from "react";
+import {useCallback, useReducer} from "react";
+import Context from "./Context";
 import * as actionCreator from './action'
-interface State {
-  from: string;
-  to: string;
-  isCitySelectorVisible: boolean;
-  currentSelectingLeftCity: boolean;
-  cityData: any;
-  isLoadingCityData: boolean;
-  isDateSelectorVisible: boolean;
-  highSpeed: boolean;
+import CitySelector from "../common/CitySelector";
+export interface State {
+  from?: string;
+  to?: string;
+  isCitySelectorVisible?: boolean;
+  currentSelectingLeftCity?: boolean;
+  cityData?: any;
+  isLoadingCityData?: boolean;
+  isDateSelectorVisible?: boolean;
+  highSpeed?: boolean;
 }
-interface Action extends State {
+export interface Action extends State {
   type: string
 }
 type Reducer = (state: State, action: Action) => State
-interface Context {
-  state: State;
-  dispatch: Dispatch<Action>
-}
 const store: State = {
   from: '北京',
   to: '上海',
@@ -57,9 +55,8 @@ const reducer: Reducer = (state, action) => {
       throw new Error()
   }
 }
-const Context = createContext<Context | null>(null)
 const App: React.FC = () => {
-  const [state, dispatch] = useReducer(reducer, store)
+  const [state, dispatch] = useReducer<Reducer>(reducer, store)
   const onBack = useCallback(() => {
     window.history.back()
   }, [])
@@ -68,10 +65,13 @@ const App: React.FC = () => {
       <div className="header-wrapper">
         <Header title={"火车票"} onBack={onBack}/>
       </div>
-      <Journey/>
-      <DepartDate/>
-      <HighSpeed/>
-      <Submit/>
+      <form className={"form"}>
+        <Journey/>
+        <DepartDate/>
+        <HighSpeed/>
+        <Submit/>
+      </form>
+      <CitySelector/>
     </Context.Provider>
   )
 }
