@@ -1,7 +1,7 @@
 import * as React from "react";
 import './CitySelector.css'
 import classnames from 'classnames'
-import {useCallback, useContext, useState} from "react";
+import {useCallback, useContext, useMemo, useState} from "react";
 import Context from "../index/Context";
 import {ChangeEventHandler} from "react";
 import {MouseEventHandler} from "react";
@@ -16,7 +16,7 @@ const CitySelector: React.FC = (props) => {
   const onClickClean: MouseEventHandler = () => {
     setSearchKey('')
   }
-  const key = useCallback(() => searchKey.trim(), [searchKey])
+  const key = useMemo(() => searchKey.trim(), [searchKey])
   const onClickBack = () => {
     dispatch({type: actionCreator.ACTION_SET_IS_CITY_SELECTOR_VISIBLE, isCitySelectorVisible: false})
   }
